@@ -1,23 +1,20 @@
-# Compiled class file
-*.class
-
-# Log file
-*.log
-
-# BlueJ files
-*.ctxt
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files #
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
+node_modules
+logs/*.log
+/.vagrant
+.webpack-cache
+public
+npm-debug.log
+.ssh
+node_modules_*
+react-codemod
+coverage
+.env
+stuff
+build/*
+yarn-error.log
+tmp
+bundle-stats.json
+.vscode
+.idea
+package-lock.json
+yarn-lock.json
