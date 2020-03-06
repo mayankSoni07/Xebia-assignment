@@ -1,4 +1,4 @@
-const FIX_RESOURCE = "Luke Skywalker";
+import { FIX_RESOURCE } from './commonConstants';
 
 export function isEmptyField(value){
     if(value === null || value === undefined || value.length === 0)

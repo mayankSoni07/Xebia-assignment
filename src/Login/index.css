@@ -1,3 +1,17 @@
 .red{
     color: red;
+    position: absolute;
+}
+.submit{
+    cursor: pointer;
+    padding: 10px;
+    font-size: 12px;
+    background-color: skyblue;
+    border-color: black;
+    color: black;
+    margin-top: 40px;
+}
+.label{
+    width: 85px;
+    display: inline-block;
 }

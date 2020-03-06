@@ -93,7 +93,7 @@ class Login extends React.Component {
                 <h1>STAR WARS LOGIN</h1>
 
                 <div>
-                    <label>Username<span className="red">*</span> : </label>
+                    <label className="label">Username<span className="red">*</span></label>
                     <input
                         placeholder="Luke Skywalker" value={username} 
                         onChange={(e) => this.handleChange(e, "username")}
@@ -101,7 +101,7 @@ class Login extends React.Component {
                 </div>
 
                 <div>
-                    <label>Password<span className="red">*</span> : </label>
+                    <label className="label">Password<span className="red">*</span></label>
                     <input
                         placeholder="19BBY" value={password} 
                         onChange={(e) => this.handleChange(e, "password")}
@@ -110,7 +110,7 @@ class Login extends React.Component {
 
                 {isError && <div className="red">{errMsg}</div>}
 
-                <button onClick={this.handleClick}>Submit</button>
+                <button className="submit" onClick={this.handleClick}>SUBMIT</button>
 
             </React.Fragment>
         );

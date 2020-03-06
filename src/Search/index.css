@@ -1,8 +1,13 @@
 .logoutButton{
+    cursor: pointer;
     position: absolute;
-    right: 0;
+    right: 10px;
+    top: 30px;
     padding: 10px;
-    background-color: red;
+    font-size: 12px;
+    background-color: #FF0000;
+    border-color: #FF0000;
+    color: #fff;
 }
 .item-container{
     padding: 5px;
@@ -13,19 +18,20 @@
 }
 .large-item{
     cursor: pointer;
-    background-color: aqua;
+    background-color: #7B68EE;
     font-size: 15px;
 }
 .medium-item{
     cursor: pointer;
-    background-color: aquamarine;
+    background-color: #00BFFF;
     font-size: 12px;
 }
 .small-item{
     cursor: pointer;
-    background-color: skyblue;
+    background-color: #E6E6FA;
     font-size: 10px;
 }
 .red{
     color: red;
+    position: absolute;
 }

@@ -1,0 +1,19 @@
+.header{
+    text-align: center;
+}
+.item-information-container{
+    position: absolute;
+    left: 500px;
+    top: 50px;
+    padding: 20px 10px 50px 50px;
+    border: 3px solid black;
+    width: 500px;
+    word-wrap: break-word;
+}
+.key{
+    width: 200px;
+    display: inline-block;
+}
+.value{
+    margin-left: 20px
+}

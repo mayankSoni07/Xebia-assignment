@@ -120,7 +120,7 @@ class Search extends React.Component {
             <div className="App">
                 <h1>Search screen</h1>
                 
-                <button className="logoutButton" onClick={this.onLogout} >Logout</button>
+                <button className="logoutButton" onClick={this.onLogout} >SIGN OUT</button>
 
                 <label>Search : </label>
                 <input ref="searchInputRef" value={searchInput} onChange={this.handleClick}/>
