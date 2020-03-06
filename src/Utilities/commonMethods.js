@@ -4,3 +4,11 @@ export function isEmptyField(value){
     else
         return false;
 }
+
+export function setTokenValue(value){
+    localStorage.setItem("token", value);
+}
+
+export function getTokenValue(value){
+    return localStorage.getItem("token");
+}

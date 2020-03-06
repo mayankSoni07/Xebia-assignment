@@ -1,7 +1,7 @@
 import React from 'react';
 
 import apiCall from '../Utilities/api';
-import { isEmptyField } from '../Utilities/commonMethods';
+import { isEmptyField, setTokenValue, getTokenValue } from '../Utilities/commonMethods';
 import { 
     URL_BASE, URL_PEOPLE_SEARCH, MSG_EMPTY_FIELD, MSG_UNAUTHENTICATED_USER, ERROR_TIME,
     MSG_WRONG_PASSWORD
@@ -13,7 +13,7 @@ class Login extends React.Component {
     constructor(props){
         super(props);
 
-        if(localStorage.getItem("token")+"" === true+"")
+        if(getTokenValue()+"" === true+"")
             this.props.history.push('/search');
 
         this.state = {
@@ -65,7 +65,7 @@ class Login extends React.Component {
 
                     if(foundUser){
                         if(foundUser.birth_year.toLowerCase() === password.toLowerCase()){
-                            localStorage.setItem("token", true)
+                            setTokenValue(true);
                             this.props.history.push("/search");
                         } else 
                             this.setError(MSG_WRONG_PASSWORD);
@@ -81,6 +81,7 @@ class Login extends React.Component {
     }
 
     render(){
+        const { username, password, errMsg, isError } = this.state;
         return (
             <React.Fragment>
                 <h1>STAR WARS LOGIN</h1>
@@ -88,7 +89,7 @@ class Login extends React.Component {
                 <div>
                     <label>Username<span className="red">*</span> : </label>
                     <input
-                        placeholder="Luke Skywalker" value={this.state.username} 
+                        placeholder="Luke Skywalker" value={username} 
                         onChange={(e) => this.handleChange(e, "username")}
                     />
                 </div>
@@ -96,12 +97,12 @@ class Login extends React.Component {
                 <div>
                     <label>Password<span className="red">*</span> : </label>
                     <input
-                        placeholder="19BBY" value={this.state.password} 
+                        placeholder="19BBY" value={password} 
                         onChange={(e) => this.handleChange(e, "password")}
                     />
                 </div>
 
-                {this.state.isError && <div className="red">{this.state.errMsg}</div>}
+                {isError && <div className="red">{errMsg}</div>}
 
                 <button onClick={this.handleClick}>Submit</button>
 

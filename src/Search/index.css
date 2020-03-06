@@ -1,0 +1,28 @@
+.logoutButton{
+    position: absolute;
+    right: 0;
+    padding: 10px;
+    background-color: red;
+}
+.item-container{
+    padding: 5px;
+    height: 20px;
+    width: 200px;
+    border-style: solid;
+    margin: 5px;
+}
+.large-item{
+    cursor: pointer;
+    background-color: aqua;
+    font-size: 15px;
+}
+.medium-item{
+    cursor: pointer;
+    background-color: aquamarine;
+    font-size: 12px;
+}
+.small-item{
+    cursor: pointer;
+    background-color: skyblue;
+    font-size: 10px;
+}
