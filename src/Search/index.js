@@ -1,8 +1,8 @@
 import React from 'react';
 
 import apiCall from '../Utilities/api';
-import { setTokenValue, getTokenValue } from '../Utilities/commonMethods';
-import { URL_BASE, URL_PLANET_SEARCH } from '../Utilities/commonConstants';
+import { setLocalValue, getLocalValue, checkUser } from '../Utilities/commonMethods';
+import { URL_BASE, URL_PLANET_SEARCH, ERROR_TIME, TIMEOUT_TIME, SEARCH_COUNT } from '../Utilities/commonConstants';
 
 import ItemInformation from '../ItemInformation';
 import './index.css';
@@ -13,10 +13,12 @@ class Search extends React.Component {
         this.state = {
             searchInput: "",
             searchResult: [],
-            isItemRender: null
+            isItemRender: null,
+            isError: false,
+            errMsg: ""
         };
 
-        if(getTokenValue()+"" !== true+"")
+        if(getLocalValue("token")+"" !== true+"")
             this.props.history.push('/login');
         
         this.onLogout = this.onLogout.bind(this);
@@ -26,8 +28,11 @@ class Search extends React.Component {
     }
 
     onLogout(){
-        setTokenValue(undefined);
-        this.props.history.push("/login")
+        setLocalValue("timeout", null)
+        setLocalValue("searchCount", 0)
+        setLocalValue("token", undefined);
+        setLocalValue("username", null)
+        this.props.history.push("/login");
     }
 
     removeInputFocus(){
@@ -39,15 +44,39 @@ class Search extends React.Component {
         this.refs.searchInputRef.focus();
     }
 
+    setError(errMsg){
+        this.setState({ isError: true, errMsg: errMsg }, ()=>{
+            setTimeout(()=>{
+                this.setState({ isError: false });
+            }, ERROR_TIME);
+        });
+    }
+
     handleClick(e){
         const input = e.target.value;
+        const username = getLocalValue("username");
+
         this.setState({ searchInput: input });
         this.removeInputFocus();
 
-        if(input.length === 0){
-            this.setState({ searchResult: [] });
+        if(!checkUser(username) && getLocalValue("timeout")+"" === true+""){
+            setLocalValue("timeout", null);
+            setLocalValue("searchCount", 0);
+            setTimeout(()=>{ setLocalValue("timeout", true) }, TIMEOUT_TIME);
+        }
+
+        if(input.length === 0 || (!checkUser(username) && parseInt(getLocalValue("searchCount")) > SEARCH_COUNT)){
+            let objToSet = {};
+            objToSet["searchResult"] = [];
+            if(parseInt(getLocalValue("searchCount")) > SEARCH_COUNT){
+                this.setError("You can search only "+ SEARCH_COUNT +" times.");
+            }
+            this.setState({ ...objToSet });
             this.inputFocus();
         } else {
+            if(!checkUser(username))
+                setLocalValue("searchCount", parseInt(getLocalValue("searchCount"))+1);
+
             let reqObj = {};
             reqObj["reqUrl"] = URL_BASE + URL_PLANET_SEARCH + input;
             reqObj["method"] = "GET";
@@ -85,7 +114,7 @@ class Search extends React.Component {
     }
 
     render(){
-        const { searchInput, searchResult, isItemRender, itemDetail } = this.state;
+        const { searchInput, searchResult, isItemRender, itemDetail, isError, errMsg } = this.state;
         console.log('state search', this.state)
         return (
             <div className="App">
@@ -95,6 +124,7 @@ class Search extends React.Component {
 
                 <label>Search : </label>
                 <input ref="searchInputRef" value={searchInput} onChange={this.handleClick}/>
+                {isError && <div className="red">{errMsg}</div>}
 
                 {searchResult && searchResult.map((item, index)=>{
                     return this.renderItem(item, index)

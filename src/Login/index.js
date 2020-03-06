@@ -1,9 +1,9 @@
 import React from 'react';
 
 import apiCall from '../Utilities/api';
-import { isEmptyField, setTokenValue, getTokenValue } from '../Utilities/commonMethods';
+import { isEmptyField, setLocalValue, getLocalValue, checkUser } from '../Utilities/commonMethods';
 import { 
-    URL_BASE, URL_PEOPLE_SEARCH, MSG_EMPTY_FIELD, MSG_UNAUTHENTICATED_USER, ERROR_TIME,
+    URL_BASE, URL_PEOPLE_SEARCH, MSG_EMPTY_FIELD, MSG_UNAUTHENTICATED_USER, ERROR_TIME, TIMEOUT_TIME,
     MSG_WRONG_PASSWORD
 } from '../Utilities/commonConstants';
 
@@ -13,7 +13,8 @@ class Login extends React.Component {
     constructor(props){
         super(props);
 
-        if(getTokenValue()+"" === true+"")
+        setLocalValue("timeout", undefined)
+        if(getLocalValue("token")+"" === true+"")
             this.props.history.push('/search');
 
         this.state = {
@@ -52,8 +53,6 @@ class Login extends React.Component {
 
             apiCall(reqObj)
             .then((res)=>{
-                console.log('res', res, this);
-
                 let foundUser;
                 if(res.data.count){
                     let results = res.data.results;
@@ -64,8 +63,15 @@ class Login extends React.Component {
                     });
 
                     if(foundUser){
-                        if(foundUser.birth_year.toLowerCase() === password.toLowerCase()){
-                            setTokenValue(true);
+                        if(
+                            foundUser.birth_year.toLowerCase() === password.toLowerCase()
+                        ){
+                            if(!checkUser(foundUser.name)){
+                                setTimeout(()=>{ setLocalValue("timeout", true) }, TIMEOUT_TIME)
+                                setLocalValue("searchCount", 0);
+                            }
+                            setLocalValue("username", foundUser.name);
+                            setLocalValue("token", true);
                             this.props.history.push("/search");
                         } else 
                             this.setError(MSG_WRONG_PASSWORD);
