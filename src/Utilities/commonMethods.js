@@ -16,7 +16,7 @@ export function getLocalValue(key){
 }
 
 export function checkUser(username){
-    if(username === FIX_RESOURCE)
+    if(username.toLowerCase() === FIX_RESOURCE.toLowerCase())
         return true;
     else
         return false;
