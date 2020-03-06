@@ -10,11 +10,12 @@
     color: #fff;
 }
 .item-container{
-    padding: 5px;
     height: 20px;
     width: 200px;
     border-style: solid;
     margin: 5px;
+    text-align: center;
+    padding: 7px;
 }
 .large-item{
     cursor: pointer;
@@ -24,12 +25,12 @@
 .medium-item{
     cursor: pointer;
     background-color: #00BFFF;
-    font-size: 12px;
+    font-size: 13px;
 }
 .small-item{
     cursor: pointer;
     background-color: #E6E6FA;
-    font-size: 10px;
+    font-size: 11px;
 }
 .red{
     color: red;

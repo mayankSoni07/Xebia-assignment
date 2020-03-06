@@ -15,7 +15,8 @@ class Search extends React.Component {
             searchResult: [],
             isItemRender: null,
             isError: false,
-            errMsg: ""
+            errMsg: "",
+            isLoading: false
         };
 
         if(getLocalValue("token")+"" !== true+"")
@@ -56,7 +57,7 @@ class Search extends React.Component {
         const input = e.target.value;
         const username = getLocalValue("username");
 
-        this.setState({ searchInput: input });
+        this.setState({ searchInput: input, isLoading: true });
         this.removeInputFocus();
 
         if(!checkUser(username) && getLocalValue("timeout")+"" === true+""){
@@ -68,6 +69,8 @@ class Search extends React.Component {
         if(input.length === 0 || (!checkUser(username) && parseInt(getLocalValue("searchCount")) > SEARCH_COUNT)){
             let objToSet = {};
             objToSet["searchResult"] = [];
+            objToSet["isLoading"] = false;
+            objToSet["isItemRender"] = null;
             if(parseInt(getLocalValue("searchCount")) > SEARCH_COUNT){
                 this.setError("You can search only "+ SEARCH_COUNT +" times.");
             }
@@ -92,9 +95,12 @@ class Search extends React.Component {
                     else return 1;
                 });
 
-                this.setState({ searchResult : results });
+                this.setState({ searchResult : results, isLoading: false });
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                console.log(err);
+                this.setState({ isLoading: false });
+            })
         }
     }
 
@@ -114,8 +120,7 @@ class Search extends React.Component {
     }
 
     render(){
-        const { searchInput, searchResult, isItemRender, itemDetail, isError, errMsg } = this.state;
-        console.log('state search', this.state)
+        const { searchInput, searchResult, isItemRender, itemDetail, isError, errMsg, isLoading } = this.state;
         return (
             <div className="App">
                 <h1>Search screen</h1>
@@ -131,6 +136,8 @@ class Search extends React.Component {
                 })}
 
                 {isItemRender && <ItemInformation itemDetail={itemDetail} />}
+
+                {isLoading && <img className="loading" src={require("../Utilities/loading.gif")}></img>}
             </div>
         );
     }

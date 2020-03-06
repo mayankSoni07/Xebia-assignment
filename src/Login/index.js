@@ -51,9 +51,12 @@ class Login extends React.Component {
             reqObj["reqUrl"] = URL_BASE + URL_PEOPLE_SEARCH + username;
             reqObj["method"] = "GET";
 
+            this.setState({ isLoading: true });
+
             apiCall(reqObj)
             .then((res)=>{
                 let foundUser;
+                this.setState({ isLoading: false });
                 if(res.data.count){
                     let results = res.data.results;
                     /** Found user by username */
@@ -82,12 +85,15 @@ class Login extends React.Component {
                     this.setError(MSG_UNAUTHENTICATED_USER);
                 }
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                console.log(err);
+                this.setState({ isLoading: false });
+            })
         }
     }
 
     render(){
-        const { username, password, errMsg, isError } = this.state;
+        const { username, password, errMsg, isError, isLoading } = this.state;
         return (
             <React.Fragment>
                 <h1>STAR WARS LOGIN</h1>
@@ -111,6 +117,8 @@ class Login extends React.Component {
                 {isError && <div className="red">{errMsg}</div>}
 
                 <button className="submit" onClick={this.handleClick}>SUBMIT</button>
+
+                {isLoading && <img className="loading" src={require("../Utilities/loading.gif")}></img>}
 
             </React.Fragment>
         );
